@@ -36,6 +36,14 @@ class VendorTest < Minitest::Test
     expected = {item1 => 30, item2 => 25}
 
     assert_equal expected, vendor.inventory
+  end
 
+  def test_potential_revenue
+    vendor = Vendor.new("Rocky Mountain Fresh")
+    item1 = Item.new({name: 'Peach', price: "$0.75"})
+    item2 = Item.new({name: 'Tomato', price: '$0.50'})
+    vendor.stock(item1, 35)
+    vendor.stock(item2, 7)
+    assert_equal 29.75, vendor.potential_revenue
   end
 end
