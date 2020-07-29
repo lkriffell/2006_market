@@ -38,4 +38,26 @@ class Market
     end
     sorted_items.uniq.sort
   end
+
+  def total_inventory
+    total_items = Hash.new { |hash, key| hash[key] = {}}
+    @vendors.each do |vendor|
+      vendor.inventory.each do |item|
+        total_item_num = 0
+        total_items[item[0]][:quantity] = (total_item_num += item[1])
+        total_items[item[0]][:vendors] = vendors_that_sell(item[0])
+      end
+    end
+    total_items
+  end
+
+  def overstocked_items
+    over_stock = []
+    total_inventory.each do |item|
+      if item[1][:vendors].size > 1 && item[1][:quantity] > 50
+        over_stock << item[0]
+      end
+    end
+    over_stock
+  end
 end
